@@ -4,4 +4,4 @@ To run, first install Node.js w/ NPM.
 
 Next, install the dependencies using `npm install`.
 
-Then run.
+Then run with `node ___.js`.
