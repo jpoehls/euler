@@ -17,12 +17,31 @@ Which starting number, under one million, produces the longest chain?
 NOTE: Once the chain starts the terms are allowed to go above one million.
 -}
 
-euler014 :: Integer
-euler014 = 1
+-- Gets the lengths of all sequences from 1..1000000
+-- and returns the number with the longest sequence.
+euler014 :: (Integer, Int)
+euler014 = foldl (\a b -> if (snd a) > (snd b) then a else b) (1,1) (goose''' 1000000)
 
+main :: IO ()
 main = putStrLn (show euler014)
 
---sequencer :: (Num a) => Integer -> a
---sequencer n
---	| even n = n/2
---	| otherwise = 3 * n + 1
+
+-- Generates the next number in the sequence.
+goose :: Integer -> Integer
+goose n
+    | even n = div n 2
+    | otherwise = 3 * n + 1
+
+-- Generates the sequence defined in the requirements,
+-- except it leaves off the first number of the sequence.
+goose' :: Integer -> [Integer]
+goose' 1 = []
+goose' n = (goose n):goose' (goose n)
+
+-- Generates the sequence wth the first number included.
+goose'' :: Integer -> [Integer]
+goose'' n = n:goose' n
+
+-- Gets a tuple list of all sequences for 1..n with n and the length of the sequence.
+goose''' :: Integer -> [(Integer, Int)]
+goose''' n = map (\x -> (x, length (goose'' x))) [1..n]
